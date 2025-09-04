@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { use, useEffect, useState } from "react";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [stores, setStores] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const store = localStorage.setItem("token", "123");
+    console.log("store", store);
+    setStores(1);
     console.log("Login Data:", { email, password });
   };
 
+  useEffect(() => {
+    if (stores === 1) {
+      navigate("/OrderTracking");
+    }
+  }, [stores]);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6">
@@ -53,6 +64,7 @@ export default function Login() {
 
           {/* Submit Button */}
           <button
+            onSubmit={handleSubmit}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
           >

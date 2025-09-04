@@ -5,14 +5,18 @@ import Sidebar from "./components/Sidebar";
 import OrderTracking from "./pages/OrderTracking";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/auth/Login";
+import { useEffect, useState } from "react";
 
 function App() {
-  const isLogined = false;
+  const [isLogined, setLogin] = useState(false);
+  useEffect(() => {
+    setLogin(localStorage.getItem("token"));
+  }, []);
   return (
     <BrowserRouter>
       {!isLogined ? (
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       ) : (
         <div className="flex w-full h-screen">

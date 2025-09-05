@@ -7,11 +7,15 @@ export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ msg: "User already exists" });
+    if (userExists)
+      return res
+        .status(400)
+        .json({ status: false, msg: "User already exists" });
 
     const user = await User.create({ username, email, password });
-
-    res.status(201).json({ msg: "User registered successfully" });
+    if (!user)
+      return res.status(400).json({ status: false, msg: "Invalid user data" });
+    res.status(201).json({ status: true, msg: "User registered successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -24,13 +28,18 @@ export const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user)
-      return res.status(400).json({ msg: "Invalid email or password" });
+      return res
+        .status(400)
+        .json({ status: false, msg: "Invalid email or password" });
 
     const isMatch = await user.matchPassword(password);
     if (!isMatch)
-      return res.status(400).json({ msg: "Invalid email or password" });
+      return res
+        .status(400)
+        .json({ status: false, msg: "Invalid email or password" });
 
     res.json({
+      status: true,
       token: generateToken(user._id),
       user: { id: user._id, username: user.username, email: user.email },
     });
@@ -42,9 +51,8 @@ export const loginUser = async (req, res) => {
 // PROFILE
 export const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user);
-    // .select("-password");
-    res.json(user);
+    const user = await User.findById(req.user).select("-password");
+    res.json({ status: true, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

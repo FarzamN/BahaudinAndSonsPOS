@@ -14,7 +14,7 @@ export const createInventory = async (req, res) => {
 export const getInventories = async (req, res) => {
   try {
     const inventories = await Inventory.find();
-    res.json(inventories);
+    res.json({ data: inventories, status: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -24,8 +24,11 @@ export const getInventories = async (req, res) => {
 export const getInventoryById = async (req, res) => {
   try {
     const inventory = await Inventory.findById(req.params.id);
-    if (!inventory) return res.status(404).json({ msg: "Inventory not found" });
-    res.json(inventory);
+    if (!inventory)
+      return res
+        .status(404)
+        .json({ status: false, msg: "Inventory not found" });
+    res.json({ status: true, data: inventory });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -39,8 +42,11 @@ export const updateInventory = async (req, res) => {
       req.body,
       { new: true, runValidators: true }
     );
-    if (!inventory) return res.status(404).json({ msg: "Inventory not found" });
-    res.json(inventory);
+    if (!inventory)
+      return res
+        .status(404)
+        .json({ status: false, msg: "Inventory not found" });
+    res.json({ status: true, data: inventory });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -50,8 +56,11 @@ export const updateInventory = async (req, res) => {
 export const deleteInventory = async (req, res) => {
   try {
     const inventory = await Inventory.findByIdAndDelete(req.params.id);
-    if (!inventory) return res.status(404).json({ msg: "Inventory not found" });
-    res.json({ msg: "Inventory deleted successfully" });
+    if (!inventory)
+      return res
+        .status(404)
+        .json({ status: false, msg: "Inventory not found" });
+    res.json({ status: true, msg: "Inventory deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

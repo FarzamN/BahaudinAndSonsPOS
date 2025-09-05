@@ -1,20 +1,67 @@
 import Order from "../model/Order.js";
+import Inventory from "../model/Inventory.js";
 
 // CREATE
 export const createOrder = async (req, res) => {
   try {
-    const order = await Order.create(req.body);
-    res.status(201).json(order);
+    const {
+      size,
+      guage,
+      quantity,
+      pricePerUnit,
+      customerName,
+      discountPercentage,
+    } = req.body;
+
+    // 1️⃣ Find matching inventory item
+    const inventoryItem = await Inventory.findOne({ size, guage });
+
+    if (!inventoryItem) {
+      return res
+        .status(404)
+        .json({ status: false, msg: "Item not available in inventory" });
+    }
+
+    // 2️⃣ Check if enough stock
+    if (inventoryItem.quantity < quantity) {
+      return res.status(400).json({
+        status: false,
+        msg: `Only ${inventoryItem.quantity} units available in stock`,
+      });
+    }
+
+    // 3️⃣ Calculate prices
+    const totalPrice = quantity * pricePerUnit;
+    const discount = (discountPercentage / 100) * totalPrice;
+    const totalPriceAfterDiscount = totalPrice - discount;
+
+    // 4️⃣ Create new order
+    const order = await Order.create({
+      size,
+      guage,
+      quantity,
+      pricePerUnit,
+      customerName,
+      discountPercentage,
+      totalPriceAfterDiscount,
+      dateTime: new Date(),
+    });
+
+    // 5️⃣ Update inventory stock
+    inventoryItem.quantity -= quantity;
+    await inventoryItem.save();
+
+    res.status(201).json({ status: true, data: order });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ status: false, error: err.message });
   }
 };
 
 // READ (all orders)
-export const getOrders = async (req, res) => {
+export const getOrders = async (_, res) => {
   try {
     const orders = await Order.find();
-    res.json(orders);
+    res.status(200).json({ status: true, data: orders });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -24,8 +71,9 @@ export const getOrders = async (req, res) => {
 export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
-    if (!order) return res.status(404).json({ msg: "Order not found" });
-    res.json(order);
+    if (!order)
+      return res.status(404).json({ status: false, msg: "Order not found" });
+    res.json({ data: order, status: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -38,8 +86,9 @@ export const updateOrder = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    if (!order) return res.status(404).json({ msg: "Order not found" });
-    res.json(order);
+    if (!order)
+      return res.status(404).json({ status: false, msg: "Order not found" });
+    res.json({ data: order, status: true });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -49,8 +98,9 @@ export const updateOrder = async (req, res) => {
 export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id);
-    if (!order) return res.status(404).json({ msg: "Order not found" });
-    res.json({ msg: "Order deleted successfully" });
+    if (!order)
+      return res.status(404).json({ status: false, msg: "Order not found" });
+    res.json({ status: true, msg: "Order deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Sidebar from './Components/Sidebar'
 import Dashboard from './pages/Dashboard'
 import AddItems from './pages/AddItems'

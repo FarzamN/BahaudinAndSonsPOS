@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import '../style/Sidebar.css';
 export default function Sidebar() {
   return (
@@ -7,10 +8,10 @@ export default function Sidebar() {
         <h1 className='fs-2 fw-semibold lh-sm'>Site Logo</h1>
       </div>
       <ul className='navbar-nav'>
-        <li className='nav-item'><a href="#" className='nav-link'>Dashboard</a></li>
-        <li className='nav-item'><a href="#" className='nav-link'>Inventory</a></li>
-        <li className='nav-item'><a href="#" className='nav-link'>Orders</a></li>
-        <li className='nav-item'><a href="#" className='nav-link'>Users</a></li>
+        <li className='nav-item'><Link to="/dashboard" className='nav-link'>Dashboard</Link></li>
+        <li className='nav-item'><Link to="/Inventories" className='nav-link'>Inventory</Link></li>
+        <li className='nav-item'><Link to="/Orders" className='nav-link'>Orders</Link></li>
+        <li className='nav-item'><Link to="/Users" className='nav-link'>Users</Link></li>
       </ul>
       <div className='d-block mt-auto'>
         <a href="#" className='btn btn-danger w-100'>Logout</a>

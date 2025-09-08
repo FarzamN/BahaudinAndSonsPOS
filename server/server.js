@@ -1,5 +1,6 @@
-import express from "express";
+import cors from "cors";
 import { config } from "dotenv";
+import express, { json } from "express";
 import connectDB from "./src/config/db.js";
 import {
   authRoutes,
@@ -11,7 +12,14 @@ config();
 connectDB();
 
 const app = express();
-app.use(express.json());
+app.use(json());
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
 // Routes
 app.use("/auth", authRoutes);

@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import Sidebar from './Components/Sidebar'
-import Dashboard from './pages/Dashboard'
-import AddItems from './pages/AddItems'
-import AddOrder from './pages/AddOrder'
-import Orders from './pages/Orders'
-import AddInventory from './pages/AddInventory'
-import Inventories from './pages/Inventories'
-import Users from './pages/Users'
-import AddUser from './pages/AddUser'
-import Login from './pages/Login'
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./Components/Sidebar";
+import Dashboard from "./pages/Dashboard";
+import AddItems from "./pages/AddItems";
+import AddOrder from "./pages/AddOrder";
+import Orders from "./pages/Orders";
+import AddInventory from "./pages/AddInventory";
+import Inventories from "./pages/Inventories";
+import Users from "./pages/Users";
+import AddUser from "./pages/AddUser";
+import Login from "./pages/Login";
 
 export default function App() {
- const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(false);
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("token", "dasdsad")
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
       setToken(savedToken);
@@ -33,9 +32,7 @@ export default function App() {
   return (
     <div className="container-fluid ps-0 vh-100">
       <div className="row h-100">
-        <div className="col-lg-3">
-          {login && < Sidebar /> }
-        </div>
+        <div className="col-lg-3">{login && <Sidebar />}</div>
         <div className="col-lg-9">
           <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -51,5 +48,5 @@ export default function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }

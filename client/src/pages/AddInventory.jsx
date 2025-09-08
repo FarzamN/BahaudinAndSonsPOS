@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 export default function AddInventory() {
+  const navigate = useNavigate()
+  if (!localStorage.getItem('token')) {
+    navigate('/Login')
+  }
   return (
     <section className='add-inventory p-3'>
       <h2 className='fs-3 fw-medium lh-sm'>Add Inventory</h2>

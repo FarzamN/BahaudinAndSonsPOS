@@ -7,6 +7,8 @@ import AddOrder from './pages/AddOrder'
 import Orders from './pages/Orders'
 import AddInventory from './pages/AddInventory'
 import Inventories from './pages/Inventories'
+import Users from './pages/Users'
+import AddUser from './pages/AddUser'
 import Login from './pages/Login'
 
 export default function App() {
@@ -43,6 +45,8 @@ export default function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="/addInventory" element={<AddInventory />} />
             <Route path="/Inventories" element={<Inventories />} />
+            <Route path="/Users" element={<Users />} />
+            <Route path="/AddUser" element={<AddUser />} />
           </Routes>
         </div>
       </div>

@@ -1,9 +1,17 @@
 import React from 'react'
+import { Link, useNavigate } from 'react-router'
 
 export default function Orders() {
+    const navigate = useNavigate()
+    if (!localStorage.getItem('token')) {
+        navigate('/Login')
+    }
   return (
     <section className='all-orders p-3'>
-        <h2 className='fs-3 fw-medium lh-sm'>All Orders</h2>
+        <div className="d-flex justify-content-between">
+            <h2 className='fs-3 fw-medium lh-sm mb-0'>All Orders</h2>
+            <Link to="/AddOrder" className='btn btn-primary fs-6 fw-medium lh-sm'>Add Order</Link>
+        </div>
         <div className='table-responsive mt-5'>
             <table class="table table-bordered ">
                 <thead class="table-light">

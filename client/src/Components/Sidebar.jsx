@@ -1,9 +1,18 @@
 import React from 'react'
-import { Link } from "react-router-dom";
-import '../style/Sidebar.css';
+import { Link, useNavigate } from "react-router-dom";
+
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.clear();
+
+    navigate("/Login");
+  };
+
   return (
-    <aside className='sidebar bg-white shadow p-3  d-flex flex-column h-100'>
+    <aside className='sidebar bg-white shadow p-3 d-flex flex-column h-100'>
       <div className="logo mb-4">
         <h1 className='fs-2 fw-semibold lh-sm'>Site Logo</h1>
       </div>
@@ -14,7 +23,13 @@ export default function Sidebar() {
         <li className='nav-item'><Link to="/Users" className='nav-link'>Users</Link></li>
       </ul>
       <div className='d-block mt-auto'>
-        <a href="#" className='btn btn-danger w-100'>Logout</a>
+        <button 
+          type='button' 
+          className='btn btn-danger w-100'
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </aside>
   )

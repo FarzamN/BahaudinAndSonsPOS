@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 export default function Login() {
+  const navigate = useNavigate()
+  if (localStorage.getItem('token')) {
+    navigate('/dashboard')
+  }
   return (
     <div className='vh-100'>
       <div className='d-flex align-items-center justify-content-center mx-auto w-50 h-100'>

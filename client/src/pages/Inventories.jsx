@@ -17,11 +17,11 @@ export default function Inventories() {
                 <thead class="table-light">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Guage</th>
-                        <th scope="col">Qty</th>
-                        <th scope="col">Price</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Gauge</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Price per unit</th>
                         <th scope="col">Merchant Name</th>
                     </tr>
                 </thead>

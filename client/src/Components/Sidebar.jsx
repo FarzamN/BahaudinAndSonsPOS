@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import '../Components/SidebarStyle.css'
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -7,7 +8,6 @@ export default function Sidebar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     sessionStorage.clear();
-
     navigate("/Login");
   };
 
@@ -17,10 +17,38 @@ export default function Sidebar() {
         <h1 className='fs-2 fw-semibold lh-sm'>Site Logo</h1>
       </div>
       <ul className='navbar-nav'>
-        <li className='nav-item'><Link to="/dashboard" className='nav-link'>Dashboard</Link></li>
-        <li className='nav-item'><Link to="/Inventories" className='nav-link'>Inventory</Link></li>
-        <li className='nav-item'><Link to="/Orders" className='nav-link'>Orders</Link></li>
-        <li className='nav-item'><Link to="/Users" className='nav-link'>Users</Link></li>
+        <li className='nav-item'>
+          <NavLink 
+            to="/dashboard" 
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            Dashboard
+          </NavLink>
+        </li>
+        <li className='nav-item'>
+          <NavLink 
+            to="/Inventories" 
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            Inventory
+          </NavLink>
+        </li>
+        <li className='nav-item'>
+          <NavLink 
+            to="/Orders" 
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            Orders
+          </NavLink>
+        </li>
+        <li className='nav-item'>
+          <NavLink 
+            to="/Users" 
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            Users
+          </NavLink>
+        </li>
       </ul>
       <div className='d-block mt-auto'>
         <button 

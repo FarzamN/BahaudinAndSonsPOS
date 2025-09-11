@@ -43,14 +43,6 @@ export default function Sidebar() {
             Orders
           </NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink
-            to="/Users"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-          >
-            Users
-          </NavLink>
-        </li>
       </ul>
       <div className="d-block mt-auto">
         <button

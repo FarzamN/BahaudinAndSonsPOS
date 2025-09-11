@@ -3,18 +3,23 @@ import Inventory from "../model/Inventory.js";
 // CREATE
 export const createInventory = async (req, res) => {
   try {
-    const inventory = await Inventory.create(req.body);
-    res.status(201).json(inventory);
+    const inventory = await Inventory.create({
+      ...req.body,
+      user: req.user, // 🔑 attach logged-in user
+    });
+
+    res.status(201).json({ status: "true", data: inventory });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ status: "false", error: err.message });
   }
 };
 
 // READ (all)
 export const getInventories = async (req, res) => {
   try {
-    const inventories = await Inventory.find();
-    res.json({ data: inventories, status: true });
+    const inventories = await Inventory.find({ user: req.user });
+
+    res.json({ data: inventories, status: "true" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -27,8 +32,8 @@ export const getInventoryById = async (req, res) => {
     if (!inventory)
       return res
         .status(404)
-        .json({ status: false, msg: "Inventory not found" });
-    res.json({ status: true, data: inventory });
+        .json({ status: "false", msg: "Inventory not found" });
+    res.json({ status: "true", data: inventory });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -45,8 +50,8 @@ export const updateInventory = async (req, res) => {
     if (!inventory)
       return res
         .status(404)
-        .json({ status: false, msg: "Inventory not found" });
-    res.json({ status: true, data: inventory });
+        .json({ status: "false", msg: "Inventory not found" });
+    res.json({ status: "true", data: inventory });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -59,8 +64,8 @@ export const deleteInventory = async (req, res) => {
     if (!inventory)
       return res
         .status(404)
-        .json({ status: false, msg: "Inventory not found" });
-    res.json({ status: true, msg: "Inventory deleted successfully" });
+        .json({ status: "false", msg: "Inventory not found" });
+    res.json({ status: "true", msg: "Inventory deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

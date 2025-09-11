@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authMiddleware from "../middleware/authMiddleware.js";
 import {
+  getAllUsers,
   getProfile,
   loginUser,
   registerUser,
@@ -11,5 +12,6 @@ const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/me", authMiddleware, getProfile);
+router.get("/all", authMiddleware, getAllUsers);
 
 export default router;
